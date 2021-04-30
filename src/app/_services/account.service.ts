@@ -27,7 +27,8 @@ export class AccountService {
     login(email: any, password: any) {
         return this.http.post<User>(`${environment.apiUrl}/users/authenticate`, { email, password })
             .pipe(map(user => {
-                // store user details and jwt token in local storage to keep user logged in between page refreshes
+                // gem detaljer om brugeren samt jwt-token i browserens local storage for
+                // at forblive logget ind, såfremt denne skifter side eller opdaterer
                 localStorage.setItem('user', JSON.stringify(user));
                 this.userSubject.next(user);
                 return user;
