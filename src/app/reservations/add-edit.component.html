@@ -1,0 +1,51 @@
+<h1 *ngIf="isAddMode">Make Reservation</h1>
+<h1 *ngIf="!isAddMode">Change Reservation</h1>
+
+<form [formGroup]="reservationForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="date">Date</label>
+            <input type="text" formControlName="date" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.startTime.errors }" />
+            <div *ngIf="submitted && f.date.errors" class="invalid-feedback">
+                <div *ngIf="f.date.errors.required">Date is required!</div>
+            </div>
+        </div>
+
+        <div class="form-group col">
+            <label for="startTime">From</label>
+            <input type="text" formControlName="startTime" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.startTime.errors }" />
+            <div *ngIf="submitted && f.startTime.errors" class="invalid-feedback">
+                <div *ngIf="f.startTime.errors.required">Start time is required!</div>
+            </div>
+        </div>
+
+        <div class="form-group col">
+            <label for="endTime">To</label>
+            <input type="text" formControlName="endTime" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.endTime.errors }" />
+            <div *ngIf="submitted && f.endTime.errors" class="invalid-feedback">
+                <div *ngIf="f.endTime.errors.required">End time is required!</div>
+            </div>
+        </div>
+
+        <div *ngFor="let lounger of loungersFromApi; let i=index">
+            <label>
+                <input type="checkbox" [value]="lounger.id" (change)="onCheckboxChange($event)" />
+                {{lounger.id}}
+            </label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <button [disabled]="loading" class="btn btn-primary">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Save
+        </button>
+        <a routerLink="/reservations" class="btn btn-link">Cancel</a>
+    </div>
+
+
+</form>

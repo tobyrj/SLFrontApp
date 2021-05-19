@@ -1,0 +1,34 @@
+<h1>Reservations</h1>
+<a routerLink="add" class="btn btn-sm btn-success mb-2">Make a reservation</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th style="width: 10%">ID</th>
+            <th style="width: 30%">Start Time</th>
+            <th style="width: 30%">End Time</th>
+            <th style="width: 10%">User ID</th>
+            <th style="width: 10%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let reservation of reservations">
+            <td>{{reservation.id}}</td>
+            <td>{{reservation.startTime}}</td>
+            <td>{{reservation.endTime}}</td>
+            <td>{{reservation.userId}}</td>
+            <td style="white-space: nowrap">
+                <a routerLink="edit/{{reservation.id}}" class="btn btn-sm btn-primary mr-1">Change</a>
+                <button (click)="deleteReservation(reservation.id)" class="btn btn-sm btn-danger btn-delete-reservation" [disabled]="reservation.isDeleting">
+                    <span *ngIf="reservation.isDeleting" class="spinner-border spinner-border-sm"></span>
+                    <span *ngIf="!reservation.isDeleting">Delete</span>
+                </button>
+            </td>
+        </tr>
+        <tr *ngIf="!reservations">
+            <td colspan="4" class="text-center">
+                <span class="spinner-border spinner-border-lg align-center"></span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
