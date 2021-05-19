@@ -37,7 +37,7 @@ export class AddEditComponent implements OnInit {
 
 
     ngOnInit() {
-        this.reservationId = this.route.snapshot.params['id'];
+        this.reservationId = this.route.snapshot.params['reservationId'];
         this.isAddMode = !this.reservationId;
 
         this.loungerService.getAll()
@@ -57,11 +57,11 @@ export class AddEditComponent implements OnInit {
             this.reservationService.getById(this.reservationId)
                 .pipe(first())
                 .subscribe(x => {
-                    this.f.date.setValue(x.date);
-                    this.f.startTime.setValue(x.startTime);
-                    this.f.endTime.setValue(x.endTime);
-                    this.f.userId.setValue(x.userId);
-                    this.f.loungers.setValue(x.loungers);
+                    this.fc.date.setValue(x.date);
+                    this.fc.startTime.setValue(x.startTime);
+                    this.fc.endTime.setValue(x.endTime);
+                    this.fc.userId.setValue(x.userId);
+                    this.fc.loungers.setValue(x.loungers);
                 });
         }
     }
@@ -72,11 +72,9 @@ export class AddEditComponent implements OnInit {
         if (e.target.checked) {
 
             const item = this.loungersFromApi.find(x => x.id == e.target.value);
-            console.log(item)
             if (item) {
 
                 loungers.push(this.formBuilder.group(item));
-                console.log(item)
             }
         } else {
             let i: number = 0;
@@ -92,13 +90,11 @@ export class AddEditComponent implements OnInit {
     }
 
     // convenience getter for easy access to form fields
-    get f() { return this.reservationForm.controls; }
+    get fc() { return this.reservationForm.controls; }
 
 
     onSubmit() {
         this.submitted = true;
-
-        console.log(this.reservationForm.value)
 
         // reset alerts on submit
         this.alertService.clear();
