@@ -61,7 +61,7 @@ export class AddEditComponent implements OnInit {
                     this.fc.startTime.setValue(x.startTime);
                     this.fc.endTime.setValue(x.endTime);
                     this.fc.userId.setValue(x.userId);
-                    // to do: add loungers
+                    this.fc.loungers.setValue(x.loungers);
                 });
         }
     }
