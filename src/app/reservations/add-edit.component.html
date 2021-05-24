@@ -36,11 +36,10 @@
     <div class="form-group">
         <button [disabled]="loading" class="btn btn-primary">
             <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-            Save
+            Make reservation
         </button>
         <a routerLink="/reservations" class="btn btn-link">Cancel</a>
     </div>
-
 
 </form>
 
@@ -61,7 +60,7 @@
             <td><input type="checkbox" [value]="lounger.id" (change)="onCheckboxChange($event)" /></td>
         </tr>
     </tbody>
-
+</table>
 
 
     <!-- 

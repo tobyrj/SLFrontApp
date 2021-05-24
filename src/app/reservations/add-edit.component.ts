@@ -15,7 +15,7 @@ import { Lounger } from '../_models/lounger';
 
 export class AddEditComponent implements OnInit {
     reservationForm!: FormGroup;
-    reservationId!: string;
+    id!: string;
     isAddMode!: boolean;
     loading = false;
     submitted = false;
@@ -37,8 +37,8 @@ export class AddEditComponent implements OnInit {
 
 
     ngOnInit() {
-        this.reservationId = this.route.snapshot.params['reservationId'];
-        this.isAddMode = !this.reservationId;
+        this.id = this.route.snapshot.params['id'];
+        this.isAddMode = !this.id;
 
         this.loungerService.getAll()
             .pipe(first())
@@ -54,31 +54,29 @@ export class AddEditComponent implements OnInit {
 
         // subscription to get data about a reservation by ID for updating - Not relevant to creation of a res
         if (!this.isAddMode) {
-            this.reservationService.getById(this.reservationId)
+            this.reservationService.getById(this.id)
                 .pipe(first())
                 .subscribe(x => {
                     this.fc.date.setValue(x.date);
                     this.fc.startTime.setValue(x.startTime);
                     this.fc.endTime.setValue(x.endTime);
                     this.fc.userId.setValue(x.userId);
-                    this.fc.loungers.setValue(x.loungers);
+                    // to do: add loungers
                 });
         }
     }
 
     onCheckboxChange(e: any) {
         const loungers: FormArray = this.reservationForm.get('loungers') as FormArray;
-
         if (e.target.checked) {
 
             const item = this.loungersFromApi.find(x => x.id == e.target.value);
             if (item) {
-
                 loungers.push(this.formBuilder.group(item));
+                console.log(e.item)
             }
         } else {
             let i: number = 0;
-            // FormControl ændret til AbstractControl ??
             loungers.controls.forEach((item: AbstractControl) => {
                 if (item.value.id == e.target.value) {
                     loungers.removeAt(i);
@@ -91,7 +89,6 @@ export class AddEditComponent implements OnInit {
 
     // convenience getter for easy access to form fields
     get fc() { return this.reservationForm.controls; }
-
 
     onSubmit() {
         this.submitted = true;
@@ -129,7 +126,7 @@ export class AddEditComponent implements OnInit {
 
 
     private updateReservation() {
-        this.reservationService.update(this.reservationId, this.reservationForm.value)
+        this.reservationService.update(this.id, this.reservationForm.value)
             .pipe(first())
             .subscribe(
                 data => {

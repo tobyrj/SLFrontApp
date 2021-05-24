@@ -21,7 +21,7 @@ export class ListComponent implements OnInit {
                 .pipe(first())
                 .subscribe(reservations => this.reservations = reservations);
         } else {
-            this.reservationService.getAllByUserId(this.user.id)
+            this.reservationService.getAllByUserId(this.user.id!)
                 .pipe(first())
                 .subscribe(reservations => this.reservations = reservations);
         }
